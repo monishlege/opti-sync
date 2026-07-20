@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - OPTI-SYNC IDEATHON</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <canvas id="networkCanvas"></canvas>
+
+    <section class="hero hero-small">
+        <div class="hero-content">
+            <p class="hero-badge">IEEE Photonics Society CITNC Student Branch</p>
+            <h1 class="hero-title">Register for OPTI-SYNC IDEATHON</h1>
+            <p class="hero-tagline">Registration is free! Join us and build the future with light.</p>
+        </div>
+    </section>
+
+    <section class="register-form-section">
+        <div class="container">
+            <div class="form-container reveal">
+                <h2 class="section-title">Registration Form</h2>
+                <p class="form-note">* Required fields</p>
+
+                <form id="registrationForm">
+                    <!-- Team Size Selection -->
+                    <div class="form-group">
+                        <label for="teamSize" class="form-label">Team Size *</label>
+                        <select id="teamSize" class="form-select" required>
+                            <option value="1">1 Member</option>
+                            <option value="2">2 Members</option>
+                            <option value="3">3 Members</option>
+                            <option value="4">4 Members</option>
+                        </select>
+                    </div>
+
+                    <!-- Team Members Container -->
+                    <div id="teamMembersContainer"></div>
+
+                    <!-- Team Phone Number -->
+                    <div class="form-group">
+                        <label for="teamPhone" class="form-label">Team Contact Phone Number *</label>
+                        <input type="tel" id="teamPhone" class="form-input" placeholder="Enter your 10-digit phone number" required>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="cta-button form-submit">Submit Registration</button>
+                </form>
+
+                <!-- Back to Home -->
+                <div class="back-link-container">
+                    <a href="index.html" class="footer-link">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">IEEE Photonics Society CITNC Student Branch</p>
+                <p class="footer-subtext">Cambridge Institute of Technology - North Campus</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Copy the network canvas animation from index.html's script
+        const canvas = document.getElementById('networkCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const particleCount = 100;
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.color = Math.random() > 0.5 ? '#00F2FE' : '#A855F7';
+            }
+        
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+        
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+        
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+        
+        function initParticles() {
+            particles.length = 0;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+        
+        function connectParticles() {
+            for (let a = 0; a < particles.length; a++) {
+                for (let b = a; b < particles.length; b++) {
+                    const dx = particles[a].x - particles[b].x;
+                    const dy = particles[a].y - particles[b].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+        
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 242, 254, ${0.2 * (1 - distance / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[a].x, particles[a].y);
+                        ctx.lineTo(particles[b].x, particles[b].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+        }
+        
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let particle of particles) {
+                particle.update();
+                particle.draw();
+            }
+            
+            connectParticles();
+            requestAnimationFrame(animateParticles);
+        }
+        
+        initParticles();
+        animateParticles();
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        // Copy the scroll reveal
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(reveal => {
+                const windowHeight = window.innerHeight;
+                const elementTop = reveal.getBoundingClientRect().top;
+                const elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveal.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // --- CONFIGURATION ---
+        // Replace this with your Google Apps Script Web App URL after deployment
+        const GOOGLE_SCRIPT_URL = "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE";
+        
+        // Dynamic Team Member Fields
+        const teamSizeSelect = document.getElementById('teamSize');
+        const teamMembersContainer = document.getElementById('teamMembersContainer');
+
+        function createMemberFields(memberNumber) {
+            const memberDiv = document.createElement('div');
+            memberDiv.className = 'team-member-section';
+            memberDiv.id = `member-${memberNumber}`;
+            memberDiv.innerHTML = `
+                <h3 class="member-title">Team Member ${memberNumber}</h3>
+                <div class="form-group">
+                    <label for="name-${memberNumber}" class="form-label">Name *</label>
+                    <input type="text" id="name-${memberNumber}" name="name-${memberNumber}" class="form-input" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="usn-${memberNumber}" class="form-label">USN *</label>
+                    <input type="text" id="usn-${memberNumber}" name="usn-${memberNumber}" class="form-input" placeholder="Enter University Seat Number" required>
+                </div>
+                <div class="form-group">
+                    <label for="college-${memberNumber}" class="form-label">College Name *</label>
+                    <input type="text" id="college-${memberNumber}" name="college-${memberNumber}" class="form-input" placeholder="Enter college name" required>
+                </div>
+                <div class="form-group form-checkbox-group">
+                    <input type="checkbox" id="ieee-${memberNumber}" name="ieee-${memberNumber}" class="form-checkbox">
+                    <label for="ieee-${memberNumber}" class="form-checkbox-label">IEEE Member?</label>
+                </div>
+                <div class="form-group ieee-number-group" id="ieee-number-group-${memberNumber}" style="display: none;">
+                    <label for="ieee-number-${memberNumber}" class="form-label">IEEE Membership Number *</label>
+                    <input type="text" id="ieee-number-${memberNumber}" name="ieee-number-${memberNumber}" class="form-input" placeholder="Enter IEEE membership number">
+                </div>
+            `;
+            return memberDiv;
+        }
+
+        function updateTeamMembers() {
+            const size = parseInt(teamSizeSelect.value);
+            teamMembersContainer.innerHTML = '';
+            
+            for (let i = 1; i <= size; i++) {
+                const memberDiv = createMemberFields(i);
+                teamMembersContainer.appendChild(memberDiv);
+                
+                // Add event listener for IEEE checkbox
+                const ieeeCheckbox = document.getElementById(`ieee-${i}`);
+                const ieeeNumberGroup = document.getElementById(`ieee-number-group-${i}`);
+                
+                ieeeCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        ieeeNumberGroup.style.display = 'block';
+                        ieeeNumberGroup.querySelector('input').required = true;
+                    } else {
+                        ieeeNumberGroup.style.display = 'none';
+                        ieeeNumberGroup.querySelector('input').required = false;
+                    }
+                });
+            }
+        }
+
+        // Initialize
+        teamSizeSelect.addEventListener('change', updateTeamMembers);
+        updateTeamMembers();
+
+        // Form Submission
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.form-submit');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = "Submitting...";
+            submitBtn.disabled = true;
+            
+            try {
+                // Collect registration data
+                const registration = {
+                    id: Date.now(),
+                    timestamp: new Date().toISOString(),
+                    teamSize: teamSizeSelect.value,
+                    teamPhone: document.getElementById('teamPhone').value,
+                    members: []
+                };
+                
+                for (let i = 1; i <= parseInt(teamSizeSelect.value); i++) {
+                    registration.members.push({
+                        name: document.getElementById(`name-${i}`).value,
+                        usn: document.getElementById(`usn-${i}`).value,
+                        college: document.getElementById(`college-${i}`).value,
+                        isIeeeMember: document.getElementById(`ieee-${i}`).checked,
+                        ieeeNumber: document.getElementById(`ieee-${i}`).checked 
+                            ? document.getElementById(`ieee-number-${i}`).value 
+                            : ''
+                    });
+                }
+                
+                // Send to Google Sheets (if URL is configured)
+                if (GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_APPS_SCRIPT_URL_HERE") {
+                    const response = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(registration),
+                    });
+                    
+                    const result = await response.json();
+                    if (!result.success) {
+                        throw new Error(result.message || "Failed to submit registration");
+                    }
+                }
+                
+                // Always save to localStorage as a backup
+                let registrations = JSON.parse(localStorage.getItem('optiSyncRegistrations') || '[]');
+                registrations.push(registration);
+                localStorage.setItem('optiSyncRegistrations', JSON.stringify(registrations));
+                
+                alert('Thank you for registering for OPTI-SYNC IDEATHON! We will contact you soon.');
+                this.reset();
+                updateTeamMembers();
+                
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert(`Error submitting registration: ${error.message}. Please try again.`);
+            } finally {
+                submitBtn.textContent = originalBtnText;
+                submitBtn.disabled = false;
+            }
+        });
+
+
+    </script>
+</body>
+</html>
