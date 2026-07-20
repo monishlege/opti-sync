@@ -66,11 +66,14 @@ body {
   flex-wrap: wrap;
 }
 
+.partner-logos--single {
+  margin-bottom: 1.5rem;
+}
+
 .partner-logo {
-  max-height: 80px;
-  height: auto;
+  height: 120px;
   width: auto;
-  max-width: 200px;
+  object-fit: contain;
   opacity: 0.9;
   transition: all 0.3s ease;
 }
