@@ -80,7 +80,7 @@ window.addEventListener('resize', () => {
     initParticles();
 });
 
-const targetDate = new Date('September 30, 2026 10:00:00').getTime();
+const targetDate = new Date('November 4, 2026 10:00:00').getTime();
 
 function updateCountdown() {
     const now = new Date().getTime();
