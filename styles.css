@@ -74,13 +74,19 @@ body {
   height: 120px;
   width: auto;
   object-fit: contain;
-  opacity: 0.9;
+  opacity: 1;
   transition: all 0.3s ease;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 242, 254, 0.2);
+  image-rendering: optimizeQuality;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .partner-logo:hover {
-  opacity: 1;
   transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 242, 254, 0.4);
 }
 
 .partner-logo--large {
