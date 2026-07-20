@@ -57,6 +57,29 @@ body {
   animation: fadeInDown 1s ease-out;
 }
 
+.partner-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.partner-logo {
+  max-height: 80px;
+  height: auto;
+  width: auto;
+  max-width: 200px;
+  opacity: 0.9;
+  transition: all 0.3s ease;
+}
+
+.partner-logo:hover {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
 @keyframes fadeInDown {
   from {
     opacity: 0;
