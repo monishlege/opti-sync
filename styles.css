@@ -90,6 +90,10 @@ body {
   height: 180px;
 }
 
+.partner-logo--medium {
+  height: 150px;
+}
+
 @keyframes fadeInDown {
   from {
     opacity: 0;
