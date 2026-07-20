@@ -83,6 +83,10 @@ body {
   transform: scale(1.05);
 }
 
+.partner-logo--large {
+  height: 180px;
+}
+
 @keyframes fadeInDown {
   from {
     opacity: 0;
