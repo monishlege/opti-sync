@@ -94,6 +94,11 @@ body {
   height: 150px;
 }
 
+.partner-logo--citnc {
+  max-height: 65px;
+  filter: brightness(2.5);
+}
+
 @keyframes fadeInDown {
   from {
     opacity: 0;
